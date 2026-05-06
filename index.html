@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Md. Parvez Kabir | AI Developer & Researcher</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050810;
+    --bg2: #080d1a;
+    --surface: rgba(255,255,255,0.04);
+    --surface2: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08);
+    --accent: #00f5c4;
+    --accent2: #7b61ff;
+    --accent3: #ff6b6b;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --glow: rgba(0,245,196,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── CANVAS PARTICLES ── */
+  #canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5,8,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    padding-top: 5rem;
+  }
+
+  .hero-inner {
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 100px;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -2px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .hero-name .accent { color: var(--accent); }
+
+  .hero-title {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: var(--muted);
+    margin: 1.5rem 0 2rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-title .highlight { color: var(--accent2); }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: #9ca3af;
+    max-width: 600px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--glow);
+  }
+
+  .btn-outline {
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.75s ease both;
+  }
+
+  .stat-item { }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    animation: fadeUp 1s 1s ease both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollLine 1.5s infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── SECTION COMMON ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 5%;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 500px;
+    margin-bottom: 3.5rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--bg2);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .about-photo-wrap {
+    position: relative;
+  }
+
+  .about-photo-frame {
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-photo-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(0,245,196,0.1), transparent 60%);
+  }
+
+  .avatar-initials {
+    font-family: 'Syne', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0.8;
+    letter-spacing: -4px;
+  }
+
+  .about-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-color: var(--accent);
+    border-style: solid;
+    opacity: 0.5;
+  }
+
+  .about-corner.tl { top: -8px; left: -8px; border-width: 2px 0 0 2px; border-radius: 6px 0 0 0; }
+  .about-corner.br { bottom: -8px; right: -8px; border-width: 0 2px 2px 0; border-radius: 0 0 6px 0; }
+
+  .about-text p {
+    color: #9ca3af;
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .tag {
+    padding: 0.35rem 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── EXPERIENCE ── */
+  #experience { }
+
+  .exp-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .exp-card:hover { border-color: rgba(0,245,196,0.3); }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .exp-company {
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+  }
+
+  .exp-date {
+    background: rgba(0,245,196,0.1);
+    border: 1px solid rgba(0,245,196,0.3);
+    color: var(--accent);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .exp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .exp-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: #9ca3af;
+    font-size: 0.95rem;
+  }
+
+  .exp-list li::before {
+    content: '▸';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  /* ── SKILLS ── */
+  #skills {
+    background: var(--bg2);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+  }
+
+  .skill-card:hover {
+    border-color: rgba(0,245,196,0.3);
+    transform: translateY(-4px);
+  }
+
+  .skill-card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .skill-card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  .skill-card-items {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: rgba(123,97,255,0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(123,97,255,0.1);
+  }
+
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    flex: 1;
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    flex: 2;
+  }
+
+  .project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .project-tech {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .tech-chip {
+    padding: 0.2rem 0.6rem;
+    background: rgba(123,97,255,0.1);
+    border: 1px solid rgba(123,97,255,0.3);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .project-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .project-link:hover { color: var(--accent); }
+
+  /* ── PUBLICATIONS ── */
+  #publications {
+    background: var(--bg2);
+  }
+
+  .pub-list {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .pub-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: start;
+    transition: border-color 0.3s;
+  }
+
+  .pub-item:hover { border-color: rgba(0,245,196,0.2); }
+
+  .pub-type {
+    background: rgba(255,107,107,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+    color: var(--accent3);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 0.1rem;
+  }
+
+  .pub-type.dataset {
+    background: rgba(123,97,255,0.1);
+    border-color: rgba(123,97,255,0.3);
+    color: var(--accent2);
+  }
+
+  .pub-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 0.4rem;
+  }
+
+  .pub-venue {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .pub-author {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  /* ── EDUCATION ── */
+  #education { }
+
+  .edu-timeline {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .edu-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .edu-item {
+    padding-left: 3.5rem;
+    position: relative;
+  }
+
+  .edu-dot {
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .edu-dot::after {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.3s;
+  }
+
+  .edu-card:hover { border-color: rgba(0,245,196,0.3); }
+
+  .edu-degree {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .edu-school {
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 0.3rem;
+  }
+
+  .edu-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .edu-gpa {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: rgba(0,245,196,0.1);
+    border: 1px solid rgba(0,245,196,0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+  }
+
+  .edu-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .edu-thesis {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: #9ca3af;
+    line-height: 1.6;
+  }
+
+  .edu-thesis strong { color: var(--accent2); }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--bg2);
+  }
+
+  .contact-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .contact-inner .section-title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .contact-link .icon { font-size: 1.1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem 5%;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 4%; }
+    .nav-links { display: none; }
+    #hero { padding: 0 4%; }
+    section { padding: 4rem 4%; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-photo-frame { max-width: 200px; margin: 0 auto; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+    .pub-item { grid-template-columns: 1fr; }
+  }
+
+  /* ── CUSTOM SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* ── GRADIENT ORBS ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.12;
+  }
+
+  .orb-1 {
+    width: 500px; height: 500px;
+    background: var(--accent);
+    top: -200px; right: -100px;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .orb-2 {
+    width: 400px; height: 400px;
+    background: var(--accent2);
+    bottom: 20%; left: -100px;
+    animation: float 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -40px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<canvas id="canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PK<span style="color:var(--muted)">._</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Research</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Available for Work ✦ AI Developer & Researcher</div>
+    <h1 class="hero-name">
+      Md. Parvez<br><span class="accent">Kabir</span>
+    </h1>
+    <p class="hero-title">
+      AI Developer @ <span class="highlight">Betopia Group</span> · Deep Learning · LLM · NLP · AI Automation
+    </p>
+    <p class="hero-desc">
+      Computer Science graduate specializing in Machine Learning, Deep Learning, and LLM-powered systems. 
+      Experienced in medical image analysis, transformer architectures, and building intelligent AI solutions 
+      that drive real-world impact.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Publications</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3.61</div>
+        <div class="stat-label">CGPA / 4.0</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Datasets Published</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-photo-wrap reveal">
+      <div class="about-photo-frame">
+        <div class="avatar-initials">PK</div>
+        <div class="about-corner tl"></div>
+        <div class="about-corner br"></div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">Building AI that<br>actually matters</h2>
+      <p>
+        I'm a motivated Computer Science graduate from Daffodil International University, Bangladesh. 
+        My passion lies at the intersection of cutting-edge AI research and practical application development.
+      </p>
+      <p>
+        Currently working as an AI Developer at Betopia Group, I develop LLM chatbots, machine learning models, 
+        and N8N automation workflows. My thesis research focused on a novel ViT–GCN hybrid model with Explainable 
+        AI for Alzheimer's Disease Detection.
+      </p>
+      <p>
+        I'm deeply interested in medical AI, agricultural technology, and intelligent automation — fields where 
+        AI can create measurable human impact.
+      </p>
+      <div class="about-tags">
+        <span class="tag">Deep Learning</span>
+        <span class="tag">LLM Fine-Tuning</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">RAG Systems</span>
+        <span class="tag">N8N Automation</span>
+        <span class="tag">Explainable AI</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">TensorFlow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div style="text-align:center; max-width:900px; margin:0 auto 3rem;">
+    <div class="section-label">Career</div>
+    <h2 class="section-title">Work Experience</h2>
+  </div>
+  <div class="exp-card reveal">
+    <div class="exp-header">
+      <div>
+        <div class="exp-role">AI Developer</div>
+        <div class="exp-company">@ Betopia Group</div>
+      </div>
+      <div class="exp-date">Feb 2026 – Present</div>
+    </div>
+    <ul class="exp-list">
+      <li>Developing and deploying production-grade Machine Learning models for business use cases.</li>
+      <li>Building LLM-powered Chatbots for various companies using custom training and fine-tuning techniques.</li>
+      <li>Training LLMs with custom website data using RAG (Retrieval-Augmented Generation) pipelines.</li>
+      <li>Designing N8N workflows for intelligent Email Automation and business lead generation.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div style="text-align:center; margin-bottom:3.5rem;" class="reveal">
+    <div class="section-label">Expertise</div>
+    <h2 class="section-title">Technical Skills</h2>
+    <p class="section-sub" style="margin:0 auto;">A comprehensive toolkit built through research, industry work, and continuous learning.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🤖</div>
+      <div class="skill-card-title">Machine Learning</div>
+      <div class="skill-card-items">Regression · Classification · Clustering · Random Forest · XGBoost · Gradient Boosting · PCA · Cross-Validation · SMOTE · Ensemble Learning</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🧠</div>
+      <div class="skill-card-title">Deep Learning</div>
+      <div class="skill-card-items">PyTorch · TensorFlow · ANN · CNN · RNN · Vision Transformer (ViT) · DeiT · Graph Convolutional Networks (GCN) · Transfer Learning · Explainable AI (XAI)</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">💬</div>
+      <div class="skill-card-title">LLM & NLP</div>
+      <div class="skill-card-items">Tokenization · Embedding Models · Vector Databases · RAG · Model Fine-Tuning · Prompt Engineering · LangChain</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">⚡</div>
+      <div class="skill-card-title">AI Automation (N8N)</div>
+      <div class="skill-card-items">Email Automation · WhatsApp & Facebook Page Automation · Auto Meeting Booking · Business Lead Generation Workflows</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">📊</div>
+      <div class="skill-card-title">Data Analysis</div>
+      <div class="skill-card-items">Data Cleaning & Preprocessing · EDA · Statistical Analysis & Visualization · Feature Engineering · Probability · Power BI</div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">💻</div>
+      <div class="skill-card-title">Programming & Tools</div>
+      <div class="skill-card-items">Python · Java · HTML/CSS · React · SQL · Git/GitHub · Google Colab · VS Code · Kaggle · Anaconda</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div style="text-align:center; margin-bottom:3.5rem;" class="reveal">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub" style="margin:0 auto;">Real-world AI applications spanning healthcare, agriculture, legal, and business automation.</p>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT 01</div>
+      <div class="project-title">Company Multimodal LLM Chatbot</div>
+      <div class="project-desc">A company-specific AI solution capable of processing website data, uploaded documents, and voice/chat inputs to provide context-aware responses using RAG.</div>
+      <div class="project-footer">
+        <div class="project-tech">
+          <span class="tech-chip">LLM</span>
+          <span class="tech-chip">RAG</span>
+          <span class="tech-chip">Voice</span>
+        </div>
+        <a href="https://github.com/Parvez-kabir" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT 02</div>
+      <div class="project-title">Leads Collection & Email Automation (N8N)</div>
+      <div class="project-desc">Designed intelligent N8N workflows that handle inbound and outbound emails automatically, collecting and processing business leads efficiently.</div>
+      <div class="project-footer">
+        <div class="project-tech">
+          <span class="tech-chip">N8N</span>
+          <span class="tech-chip">Automation</span>
+          <span class="tech-chip">Email</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT 03</div>
+      <div class="project-title">AgroAI — CropAdvisor</div>
+      <div class="project-desc">ML-based crop recommendation system deployed with Streamlit and FastAPI on Hugging Face, helping farmers make data-driven agricultural decisions.</div>
+      <div class="project-footer">
+        <div class="project-tech">
+          <span class="tech-chip">Streamlit</span>
+          <span class="tech-chip">FastAPI</span>
+          <span class="tech-chip">HuggingFace</span>
+        </div>
+        <a href="https://github.com/Parvez-kabir" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT 04</div>
+      <div class="project-title">Lex AI — LLM Legal Advisor</div>
+      <div class="project-desc">LLM-powered legal advisory system using Retrieval-Augmented Generation (RAG) to provide context-aware legal information and guidance.</div>
+      <div class="project-footer">
+        <div class="project-tech">
+          <span class="tech-chip">LLM</span>
+          <span class="tech-chip">RAG</span>
+          <span class="tech-chip">Legal AI</span>
+        </div>
+        <a href="https://github.com/Parvez-kabir" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT 05</div>
+      <div class="project-title">Company Voice Assistant Agent</div>
+      <div class="project-desc">End-to-end voice assistant for companies to automate client communication. Context-aware using RAG from company's website and internal datasets.</div>
+      <div class="project-footer">
+        <div class="project-tech">
+          <span class="tech-chip">RAG</span>
+          <span class="tech-chip">Voice AI</span>
+          <span class="tech-chip">Agent</span>
+        </div>
+        <a href="https://github.com/Parvez-kabir" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT 06</div>
+      <div class="project-title">Rose Leaf Disease AI</div>
+      <div class="project-desc">Lightweight deep learning model built with MobileNetV2 for identifying diseases in rose leaves. Trained on a custom published dataset from Mendeley Data.</div>
+      <div class="project-footer">
+        <div class="project-tech">
+          <span class="tech-chip">MobileNetV2</span>
+          <span class="tech-chip">CNN</span>
+          <span class="tech-chip">AgriAI</span>
+        </div>
+        <a href="https://github.com/Parvez-kabir" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div style="text-align:center; margin-bottom:3.5rem;" class="reveal">
+    <div class="section-label">Research</div>
+    <h2 class="section-title">Publications</h2>
+    <p class="section-sub" style="margin:0 auto;">Peer-reviewed journal papers, conference papers, and open datasets.</p>
+  </div>
+  <div class="pub-list">
+    <div class="pub-item reveal">
+      <div class="pub-type">CONFERENCE</div>
+      <div>
+        <div class="pub-title">PoultryNet: A Lightweight CNN Student Model for Chicken Disease Classification via Knowledge Distillation from Vision Transformer</div>
+        <div class="pub-venue">ICCIT 2025</div>
+        <div class="pub-author">First Author · Md. Parvez Kabir et al.</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-type">JOURNAL</div>
+      <div>
+        <div class="pub-title">Predicting Student Mental Health Using Machine Learning Approaches</div>
+        <div class="pub-venue">Journal of Electrical Systems, 2024</div>
+        <div class="pub-author">Md. Parvez Kabir et al.</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-type">JOURNAL</div>
+      <div>
+        <div class="pub-title">Explainable AI-Based Fully Fine-Tuned Data-Efficient DeiT-B Model for Multi-Class Chest X-Ray Image Classification</div>
+        <div class="pub-venue">Atlantis Press · Part of Springer Nature</div>
+        <div class="pub-author">First Author · Md. Parvez Kabir et al.</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-type">CONFERENCE</div>
+      <div>
+        <div class="pub-title">A Comparative Analysis of Deep Ensemble Learning for Enhanced Multi Class Skin Disease Classification</div>
+        <div class="pub-venue">QPAIN 2026</div>
+        <div class="pub-author">First Author · Md. Parvez Kabir et al.</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-type">CONFERENCE</div>
+      <div>
+        <div class="pub-title">Comparative Analysis of Machine Learning Models for Crop Recommendation with a Deployed Random Forest Based Decision System</div>
+        <div class="pub-venue">ICSASD 2026</div>
+        <div class="pub-author">First Author · Md. Parvez Kabir et al.</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-type dataset">DATASET</div>
+      <div>
+        <div class="pub-title">RoseLeafVision: A Comprehensive Multi-Class Image Dataset for Accurate Rose Leaf Disease Detection</div>
+        <div class="pub-venue">Mendeley Data, V1 · doi: 10.17632/yt96x47dc7.1</div>
+        <div class="pub-author">Kabir, Md Parvez; Islam, Sazzadul; Nur, Fernaz (2025)</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-type dataset">DATASET</div>
+      <div>
+        <div class="pub-title">MushroomNet V1: A Multi-Class Image Dataset for Accurate Mushroom Species Identification</div>
+        <div class="pub-venue">Mendeley Data, V1 · doi: 10.17632/548vj9sv6p.1</div>
+        <div class="pub-author">Kabir, Md Parvez (2026)</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-type dataset">DATASET</div>
+      <div>
+        <div class="pub-title">High Resolution Rose Growth Stage Image Dataset from Golap Gram, Savar, Bangladesh for Machine Learning and Precision Agriculture</div>
+        <div class="pub-venue">Mendeley Data, V1 · doi: 10.17632/53vyvz5yyk.1</div>
+        <div class="pub-author">Kabir, Md Parvez; Islam, Sazzadul (2026)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div style="text-align:center; margin-bottom:3.5rem;" class="reveal">
+    <div class="section-label">Background</div>
+    <h2 class="section-title">Education</h2>
+  </div>
+  <div class="edu-timeline">
+    <div class="edu-item reveal">
+      <div class="edu-dot"></div>
+      <div class="edu-card">
+        <div class="edu-degree">B.Sc. in Computer Science & Engineering</div>
+        <div class="edu-school">Daffodil International University, Dhaka, Bangladesh</div>
+        <div class="edu-meta">
+          <span class="edu-gpa">CGPA: 3.61 / 4.00</span>
+          <span class="edu-year">Jan 2022 – Jan 2026</span>
+        </div>
+        <div class="edu-thesis"><strong>Thesis:</strong> A Novel ViT–GCN Hybrid Model with Explainable AI for Enhanced Alzheimer's Disease Detection Using Multiple Brain MRI Dataset.</div>
+      </div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-dot"></div>
+      <div class="edu-card">
+        <div class="edu-degree">Higher Secondary Certificate (HSC) – Science</div>
+        <div class="edu-school">Bheramara Government College, Kushtia, Bangladesh</div>
+        <div class="edu-meta">
+          <span class="edu-gpa">GPA: 4.75 / 5.00</span>
+          <span class="edu-year">Jan 2018 – Jan 2020</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <div class="section-label">Let's Connect</div>
+    <h2 class="section-title">Get In Touch</h2>
+    <p style="color:var(--muted); margin-top:1rem; font-size:1rem;">
+      Open to collaborations, research opportunities, and exciting AI projects. Let's build something impactful together.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:kabir15-5539@diu.edu.bd" class="contact-link">
+        <span class="icon">✉️</span>
+        kabir15-5539@diu.edu.bd
+      </a>
+      <a href="tel:+8801777587230" class="contact-link">
+        <span class="icon">📞</span>
+        +880 1777-587230
+      </a>
+      <a href="https://github.com/Parvez-kabir" target="_blank" class="contact-link">
+        <span class="icon">🐙</span>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/md-parvez-kabir-a10aaa388" target="_blank" class="contact-link">
+        <span class="icon">💼</span>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Designed & Built by <span style="color:var(--accent)">Md. Parvez Kabir</span> · 2026</p>
+</footer>
+
+<script>
+  // ── PARTICLE CANVAS ──
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const particles = Array.from({ length: 80 }, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.5 + 0.3,
+    dx: (Math.random() - 0.5) * 0.4,
+    dy: (Math.random() - 0.5) * 0.4,
+    opacity: Math.random() * 0.4 + 0.1,
+  }));
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.dx; p.y += p.dy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,245,196,${p.opacity})`;
+      ctx.fill();
+    });
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,245,196,${0.06 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── TYPING EFFECT in nav logo ──
+  // (already static — looks clean)
+
+  // ── SMOOTH NAV HIGHLIGHT ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 200) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--accent)' : '';
+    });
+  });
+
+  // ── COUNTER ANIMATION ──
+  function animateCounter(el, target, decimals = 0) {
+    let start = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = decimals ? start.toFixed(decimals) : Math.floor(start) + '+';
+    }, 16);
+  }
+
+  const statObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const nums = e.target.querySelectorAll('.stat-num');
+        const targets = [5, 6, 3.61, 3];
+        const decimals = [0, 0, 2, 0];
+        nums.forEach((num, i) => animateCounter(num, targets[i], decimals[i]));
+        statObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) statObserver.observe(heroStats);
+</script>
+
+</body>
+</html>
